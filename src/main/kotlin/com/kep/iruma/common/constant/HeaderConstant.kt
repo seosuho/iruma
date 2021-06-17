@@ -4,4 +4,5 @@ package com.kep.iruma.common.constant
 object HeaderConstant {
     const val X_REQUEST_ID_KEY = "X-Request-ID"
     const val AUTHORIZATION_KEY = "Authorization"
+    const val CONTENT_TYPE_KEY = "Content-Type"
 }
