@@ -1,0 +1,42 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/iruma?useSSL=false
+    username: root
+    password: root
+    initializationMode: ALWAYS
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 60000
+      max-lifetime: 1800000
+      initialization-fail-timeout: 10
+      pool-name: anna
+      data-source-properties:
+        useServerPrepStmts: false     # (MYSQL) recommended for performance
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        autoReconnect: true
+        connectTimeout: 2000         # (MYSQL) connectTimeout
+        socketTimeout: 5000          # (MYSQL) socketTimeout
+        useTimezone: true
+        serverTimezone: UTC
+        useAffectedRows: true
+        useSSL: false
+        rewriteBatchedStatements: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        format_sql: false
+        show_sql: false
+        use_sql_comments: true
+        hbm2ddl:
+          auto: update
+    open-in-view: false

@@ -32,6 +32,13 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation("net.logstash.logback:logstash-logback-encoder:6.4")
 
+    // local docker db
+    implementation("com.spotify:docker-client:8.16.0")
+    implementation("org.glassfish.jersey.inject:jersey-hk2:2.30")
+
+    // database
+    runtimeOnly("mysql:mysql-connector-java:8.0.21")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
