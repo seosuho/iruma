@@ -11,7 +11,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=iruma
     ports:
-      - "53306:3306"
+      - "13306:3306"
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -21,6 +21,6 @@ services:
   redis:
     image: redis:6.2.2-alpine
     ports:
-      - "56379:6379"
+      - "16379:6379"
     volumes:
       - iruma-db-local:/data
