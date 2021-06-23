@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3308/iruma?useSSL=false
+    url: jdbc:mysql://localhost:53306/iruma?useSSL=false
     username: root
     password: root
     initializationMode: ALWAYS
@@ -15,7 +15,7 @@ spring:
       idle-timeout: 60000
       max-lifetime: 1800000
       initialization-fail-timeout: 10
-      pool-name: anna
+      pool-name: iruma
       data-source-properties:
         useServerPrepStmts: false     # (MYSQL) recommended for performance
         cachePrepStmts: true

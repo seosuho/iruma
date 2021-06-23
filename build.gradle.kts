@@ -5,6 +5,13 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.10"
     kotlin("plugin.spring") version "1.5.10"
+    kotlin("plugin.jpa") version "1.5.10"
+}
+
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
 }
 
 group = "com.kep"
@@ -18,6 +25,7 @@ repositories {
 val fuelVersion = "2.3.1"
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -31,10 +39,6 @@ dependencies {
     // monitoring
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation("net.logstash.logback:logstash-logback-encoder:6.4")
-
-    // local docker db
-    implementation("com.spotify:docker-client:8.16.0")
-    implementation("org.glassfish.jersey.inject:jersey-hk2:2.30")
 
     // database
     runtimeOnly("mysql:mysql-connector-java:8.0.21")
