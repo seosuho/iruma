@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!-- access Log on CONSOLE -->
+    <appender name="ACCESS" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <!-- Http Client Log on CONSOLE -->
+    <appender name="HTTP_CLIENT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <!-- ERROR STACKTRACE on FILE -->
+    <appender name="STACKTRACE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH:-./log}/error.log</file>
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH:-./log}/error.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>128MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>90</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- CONSOLE LOG FOR TEST -->
+    <appender name="CONSOLE_FOR_TEST" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- 소스코드 내부에서 사용하기 위한 LOGGER 설정 -->
+    <logger name="ACCESS_LOGGER" additivity="false" level="INFO">
+        <appender-ref ref="ACCESS"/>
+    </logger>
+
+    <logger name="HTTP_CLIENT_LOGGER" additivity="false" level="INFO">
+        <appender-ref ref="HTTP_CLIENT"/>
+    </logger>
+
+
+    <logger name="STACKTRACE_LOGGER" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE" />
+    </logger>
+
+    <!-- default log를 어디서 찍을 것인가에 대한 설정 -->
+    <logger name="com.kep.iruma" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE"/>
+        <springProfile name="local, test">
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </springProfile>
+    </logger>
+
+    <logger name="org.springframework" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE"/>
+        <springProfile name="local, test">
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </springProfile>
+    </logger>
+
+    <logger name="org.hibernate" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE"/>
+        <springProfile name="local, test">
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </springProfile>
+    </logger>
+
+    <logger name="com.zaxxer.hikari" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE"/>
+        <springProfile name="local, test">
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </springProfile>
+    </logger>
+
+    <logger name="org.apache.catalina" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE"/>
+        <springProfile name="local, test">
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </springProfile>
+    </logger>
+
+    <logger name="io.sentry" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE"/>
+        <springProfile name="local, test">
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </springProfile>
+    </logger>
+    <logger name="org.springframework.boot.context.embedded.tomcat" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE"/>
+        <springProfile name="local, test">
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </springProfile>
+    </logger>
+
+    <logger name="springfox.documentation" additivity="false" level="INFO">
+        <appender-ref ref="STACKTRACE_FILE"/>
+        <springProfile name="local, test">
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </springProfile>
+    </logger>
+
+    <springProfile name="local">
+        <root level="INFO">
+            <appender-ref ref="ACCESS"/>
+            <appender-ref ref="HTTP_CLIENT"/>
+            <appender-ref ref="STACKTRACE_FILE"/>
+            <appender-ref ref="CONSOLE_FOR_TEST"/>
+        </root>
+    </springProfile>
+
+    <!--
+
+        <springProfile name="local">
+            <root level="INFO">
+                <appender-ref ref="ACCESS"/>
+                <appender-ref ref="HTTP_CLIENT"/>
+                <appender-ref ref="STACKTRACE_FILE"/>
+                <appender-ref ref="CONSOLE_FOR_TEST"/>
+            </root>
+        </springProfile>
+        <springProfile name="test">
+            <root level="INFO">
+                <appender-ref ref="ACCESS"/>
+                <appender-ref ref="HTTP_CLIENT"/>
+                <appender-ref ref="STACKTRACE_FILE"/>
+                <appender-ref ref="CONSOLE_FOR_TEST"/>
+            </root>
+        </springProfile>
+        <springProfile name="dev">
+            <root level="INFO">
+                <appender-ref ref="ACCESS"/>
+                <appender-ref ref="HTTP_CLIENT"/>
+                <appender-ref ref="STACKTRACE_FILE"/>
+            </root>
+        </springProfile>
+    <springProfile name="sandbox">
+        <root level="INFO">
+            <appender-ref ref="ACCESS"/>
+            <appender-ref ref="HTTP_CLIENT"/>
+            <appender-ref ref="STACKTRACE_FILE"/>
+        </root>
+    </springProfile>
+    <springProfile name="cbt">
+        <root level="INFO">
+            <appender-ref ref="ACCESS"/>
+            <appender-ref ref="HTTP_CLIENT"/>
+            <appender-ref ref="STACKTRACE_FILE"/>
+        </root>
+    </springProfile>
+    <springProfile name="stage">
+        <root level="INFO">
+            <appender-ref ref="ACCESS"/>
+            <appender-ref ref="HTTP_CLIENT"/>
+            <appender-ref ref="STACKTRACE_FILE"/>
+        </root>
+    </springProfile>
+    <springProfile name="production">
+        <root level="INFO">
+            <appender-ref ref="ACCESS"/>
+            <appender-ref ref="HTTP_CLIENT"/>
+            <appender-ref ref="STACKTRACE_FILE"/>
+        </root>
+    </springProfile>
+    -->
+</configuration>

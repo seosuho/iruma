@@ -1,0 +1,26 @@
+# 로컬환경에서 개발 편의를 위해 사용. 프로덕션 x
+version: "3.8"
+
+volumes:
+  iruma-db-local: { }
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=iruma
+    ports:
+      - "13306:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --lower_case_table_names=1
+    volumes:
+      - iruma-db-local:/var/lib/mysql
+  redis:
+    image: redis:6.2.2-alpine
+    ports:
+      - "16379:6379"
+    volumes:
+      - iruma-db-local:/data
